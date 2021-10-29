@@ -2,6 +2,7 @@ import json
 import os
 import re
 from datetime import datetime, timedelta
+from typing import List
 
 import redis
 from fastapi import FastAPI
@@ -12,7 +13,7 @@ TIME_PATTERN = "%H:%M:%S %d.%m.%Y"
 
 
 class LinksArray(BaseModel):
-    links: list[str]
+    links: List[str]
 
 
 r = redis.Redis(

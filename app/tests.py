@@ -1,30 +1,31 @@
 from datetime import datetime
+from typing import Union, List
 from unittest import mock
 
 from fastapi.testclient import TestClient
 
-from app import app, get_domain_from_link
+from .main import app, get_domain_from_link
 
 
 class MockingRedis:
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.save_redis = {}
 
-    def get(self, key):
+    def get(self, key: int) -> str:
         return self.save_redis.get(key)
 
     @property
-    def get_first_key(self):
+    def get_first_key(self) -> int:
         return list(self.save_redis.keys())[0]
 
-    def mset(self, key):
-        self.save_redis.update(key)
+    def mset(self, key_val_data: dict) -> None:
+        self.save_redis.update(key_val_data)
 
-    def mget(self, keys):
+    def mget(self, keys: List[int]) -> List[Union[int, None]]:
         return [self.save_redis.get(key) for key in keys]
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.save_redis)
 
 
